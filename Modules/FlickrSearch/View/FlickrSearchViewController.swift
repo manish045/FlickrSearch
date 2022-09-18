@@ -16,4 +16,8 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput {
 
         // Do any additional setup after loading the view.
     }
+    
+    private func setUpNavigation() {
+        title = AppConstant.Strings.flickrSearchTitle
+    }
 }
