@@ -14,6 +14,8 @@ struct AppConstant {
     
     enum Strings {
         static let flickrSearchTitle = "Flickr Search"
+        static let placeholder = "Search Flickr images..."
+
     }
 }
 
