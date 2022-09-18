@@ -9,6 +9,8 @@ import UIKit
 
 class FlickrSearchViewController: UIViewController, FlickrSearchViewInput {
    
+    @IBOutlet weak var collectionView: UICollectionView!
+    
     var presenter: FlickrSearchViewOutput!
 
     lazy var searchController: UISearchController = {
@@ -24,9 +26,11 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        // Do any additional setup after loading the view.
+
         setUpNavigation()
         configureSearchController()
-        // Do any additional setup after loading the view.
+        configureCollectionView()
     }
     
     private func setUpNavigation() {
@@ -39,6 +43,57 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
+    }
+    
+    //MARK: ConfigureCollectionView
+    private func configureCollectionView() {
+        self.collectionView.collectionViewLayout = createLayout()
+        self.collectionView.registerNibCell(ofType: FlickrImageCollectionViewCell.self)
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+    }
+    
+    //MARK: CreateSection
+    private enum FlickrSearchSection: Int, CaseIterable {
+        case flickrImage
+    }
+    
+    //MARK: CollectionView Cell Layout
+    private func createLayout() -> UICollectionViewCompositionalLayout {
+        return UICollectionViewCompositionalLayout { (sectionNumber, env) -> NSCollectionLayoutSection? in
+            
+            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
+                                                                heightDimension: .fractionalWidth(0.5)))
+            item.contentInsets.bottom = 16
+            item.contentInsets.trailing = 16
+            
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                             heightDimension: .estimated(100)),
+                                                                            subitems: [item])
+            let section = NSCollectionLayoutSection(group: group)
+            section.contentInsets = .init(top: 32, leading: 16, bottom: 0, trailing: 0)
+            return section
+        }
+    }
+}
+
+extension FlickrSearchViewController: UICollectionViewDelegate {
+    
+}
+
+extension FlickrSearchViewController: UICollectionViewDataSource {
+    
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return FlickrSearchSection.allCases.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueCell(FlickrImageCollectionViewCell.self, indexPath: indexPath)
+        return cell
     }
 }
 
