@@ -10,19 +10,21 @@ import UIKit
 
 
 //MARK: View
-protocol FlickrSearchViewInput {
+protocol FlickrSearchViewInput: AnyObject {
     var presenter: FlickrSearchViewOutput! { get set }
 }
 
 //MARK: Presenter
 protocol FlickrSearchModuleInput: AnyObject {
     var view: FlickrSearchViewInput? { get set }
-    var interactor: FlickrSearchInteractorInput! { get set }
-    var router: FlickrSearchRouterInput! { get set }
+    var interactor: FlickrSearchInteractorInput { get }
+    var router: FlickrSearchRouterInput { get }
 }
 
 protocol FlickrSearchViewOutput: AnyObject {
     
+    var photoArray: FlickrPhotoList {get}
+    var numberOfRowsInPhotoSection: Int {get}
 }
 
 protocol FlickrSearchInteractorOutput: AnyObject  {
