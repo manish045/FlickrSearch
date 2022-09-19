@@ -60,6 +60,7 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput, Alert
     private func configureCollectionView() {
         self.collectionView.collectionViewLayout = createLayout()
         self.collectionView.registerNibCell(ofType: FlickrImageCollectionViewCell.self)
+        self.collectionView.registerNibCell(ofType: FooterCollectionViewCell.self)
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
     }
@@ -67,23 +68,42 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput, Alert
     //MARK: CreateSection
     private enum FlickrSearchSection: Int, CaseIterable {
         case flickrImage
+        case loader
     }
     
     //MARK: CollectionView Cell Layout
     private func createLayout() -> UICollectionViewCompositionalLayout {
         return UICollectionViewCompositionalLayout { (sectionNumber, env) -> NSCollectionLayoutSection? in
             
-            let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
-                                                                heightDimension: .fractionalWidth(0.5)))
-            item.contentInsets.bottom = 16
-            item.contentInsets.trailing = 16
-            
-            let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
-                                                                             heightDimension: .estimated(100)),
-                                                                            subitems: [item])
-            let section = NSCollectionLayoutSection(group: group)
-            section.contentInsets = .init(top: 32, leading: 16, bottom: 0, trailing: 0)
-            return section
+            switch FlickrSearchSection(rawValue: sectionNumber) {
+            case .flickrImage:
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.5),
+                                                                    heightDimension: .fractionalWidth(0.5)))
+                item.contentInsets.bottom = 16
+                item.contentInsets.trailing = 16
+                
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                                 heightDimension: .estimated(100)),
+                                                                                subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = .init(top: 32, leading: 16, bottom: 0, trailing: 0)
+                return section
+                
+            default:
+                let height:CGFloat = 50
+                
+                let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                    heightDimension: .fractionalHeight(1)))
+                item.contentInsets.bottom = 0
+                item.contentInsets.trailing = 0
+                
+                let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1),
+                                                                                 heightDimension: .estimated(height)),
+                                                                                subitems: [item])
+                let section = NSCollectionLayoutSection(group: group)
+                section.contentInsets = .init(top: 8, leading: 8, bottom: 0, trailing: 0)
+                return section
+            }
         }
     }
     
@@ -91,12 +111,23 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput, Alert
         self.collectionView.reloadData()
     }
     
+    func insertFlickrSearchImages(at indexPaths: [IndexPath]) {
+        collectionView.performBatchUpdates({
+            self.collectionView.insertItems(at: indexPaths)
+        })
+    }
+    
     /// Manage change in app state while performing api.
     func changeViewState(_ state: ViewState) {
         viewState = state
         switch state {
         case .loading:
-            showSpinner()
+            if presenter.isEmpty {
+                showSpinner()
+            }else{
+                let indexSet = IndexSet(integer: FlickrSearchSection.loader.rawValue)
+                self.collectionView.reloadSections(indexSet)
+            }
         case .content:
             hideSpinner()
         case .error(let message):
@@ -115,6 +146,7 @@ extension FlickrSearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
+    
 }
 
 extension FlickrSearchViewController: UICollectionViewDataSource {
@@ -124,13 +156,32 @@ extension FlickrSearchViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return presenter.numberOfRowsInPhotoSection
+        switch FlickrSearchSection(rawValue: section) {
+        case .flickrImage:
+            return presenter.numberOfRowsInPhotoSection
+        default:
+            return (self.viewState == .loading && !self.presenter.isEmpty) ? 1 : 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueCell(FlickrImageCollectionViewCell.self, indexPath: indexPath)
-        cell.model = presenter.photoArray[indexPath.row]
-        return cell
+        switch FlickrSearchSection(rawValue: indexPath.section) {
+        case .flickrImage:
+            let cell = collectionView.dequeueCell(FlickrImageCollectionViewCell.self, indexPath: indexPath)
+            cell.model = presenter.photoArray[indexPath.row]
+            return cell
+        default:
+            let cell = collectionView.dequeueCell(FooterCollectionViewCell.self, indexPath: indexPath)
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        
+        guard viewState != .loading, indexPath.row == presenter.paginationIndex else {
+            return
+        }
+        presenter.searchFlickrPhotos(matching: searchText)
     }
 }
 

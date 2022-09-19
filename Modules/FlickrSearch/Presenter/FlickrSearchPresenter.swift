@@ -8,10 +8,16 @@
 import Foundation
 
 final class FlickrSearchPresenter: FlickrSearchModuleInput, FlickrSearchViewOutput {
+    
    
     var numberOfRowsInPhotoSection: Int = 0
+    var isEmpty: Bool = true
+    var paginationIndex: Int = 0
+
     var photoArray: FlickrPhotoList = FlickrPhotoList() {
         didSet {
+            isEmpty = photoArray.count <= 0
+            self.paginationIndex = photoArray.count - 1
             self.numberOfRowsInPhotoSection = photoArray.count
         }
     }
@@ -40,8 +46,10 @@ final class FlickrSearchPresenter: FlickrSearchModuleInput, FlickrSearchViewOutp
     }
     
     func searchFlickrPhotos(matching imageName: String) {
+        guard isMoreDataAvailable else { return }
         view?.changeViewState(.loading)
-        interactor.loadFlickrPhotos(matching: imageName, pageNum: 0)
+        pageNum += 1
+        interactor.loadFlickrPhotos(matching: imageName, pageNum: pageNum)
     }
     
     //Reset all data when new item is searched
@@ -84,8 +92,16 @@ extension FlickrSearchPresenter: FlickrSearchInteractorOutput {
     
     //MARK: Photo Seach Success
     fileprivate func insertMoreFlickrPhotos(with flickrPhotosList: FlickrPhotoList) {
+        let previousCount = totalCount
         totalCount += flickrPhotosList.count
-        self.photoArray = flickrPhotosList
+        self.photoArray.append(contentsOf: flickrPhotosList)
+        let indexPaths: [IndexPath] = (previousCount..<totalCount).map {
+            return IndexPath(item: $0, section: 0)
+        }
+        DispatchQueue.main.async { [unowned self] in
+            self.view?.insertFlickrSearchImages(at: indexPaths)
+            self.view?.changeViewState(.content)
+        }
     }
     
     //MARK: Private Methods
