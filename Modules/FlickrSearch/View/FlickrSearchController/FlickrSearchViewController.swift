@@ -91,6 +91,7 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput, Alert
         self.collectionView.reloadData()
     }
     
+    /// Manage change in app state while performing api.
     func changeViewState(_ state: ViewState) {
         viewState = state
         switch state {
