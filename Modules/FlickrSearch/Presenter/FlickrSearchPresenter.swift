@@ -79,7 +79,7 @@ extension FlickrSearchPresenter: FlickrSearchInteractorOutput {
     
     /// Failure response from API search
     func flickrSearchError(_ error: APIError) {
-        self.view?.changeViewState(.error(error.description))
+        self.view?.changeViewState(.error(error.asString))
     }
     
     //MARK: Photo Seach Success
