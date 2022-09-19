@@ -8,7 +8,7 @@
 import UIKit
 
 class FlickrSearchViewController: UIViewController, FlickrSearchViewInput {
-   
+    
     @IBOutlet weak var collectionView: UICollectionView!
     
     var presenter: FlickrSearchViewOutput!
@@ -31,6 +31,7 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput {
         setUpNavigation()
         configureSearchController()
         configureCollectionView()
+        presenter.searchFlickrPhotos(matching: "Car")
     }
     
     private func setUpNavigation() {
@@ -74,6 +75,10 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput {
             section.contentInsets = .init(top: 32, leading: 16, bottom: 0, trailing: 0)
             return section
         }
+    }
+    
+    func displayFlickrSearchImages() {
+        self.collectionView.reloadData()
     }
 }
 
