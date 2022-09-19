@@ -40,6 +40,7 @@ final class FlickrSearchPresenter: FlickrSearchModuleInput, FlickrSearchViewOutp
     }
     
     func searchFlickrPhotos(matching imageName: String) {
+        view?.changeViewState(.loading)
         interactor.loadFlickrPhotos(matching: imageName, pageNum: 0)
     }
     
@@ -69,6 +70,7 @@ extension FlickrSearchPresenter: FlickrSearchInteractorOutput {
 
             DispatchQueue.main.async { [unowned self] in
                 self.view?.displayFlickrSearchImages()
+                self.view?.changeViewState(.content)
             }
         } else {
             insertMoreFlickrPhotos(with: flickrPhotoUrlList)
@@ -77,7 +79,7 @@ extension FlickrSearchPresenter: FlickrSearchInteractorOutput {
     
     /// Failure response from API search
     func flickrSearchError(_ error: APIError) {
-    
+        self.view?.changeViewState(.error(error.description))
     }
     
     //MARK: Photo Seach Success

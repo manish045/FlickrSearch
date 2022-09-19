@@ -6,11 +6,30 @@
 //
 
 import Foundation
+import UIKit
+
+//MARK: BaseViewInput
+
+protocol BaseViewInput: AnyObject {
+    func showSpinner()
+    func hideSpinner()
+}
+
+extension BaseViewInput where Self: UIViewController {
+    func showSpinner() {
+        view.showSpinner()
+    }
+    
+    func hideSpinner() {
+        view.hideSpinner()
+    }
+}
 
 
 //MARK: View
-protocol FlickrSearchViewInput: AnyObject {
+protocol FlickrSearchViewInput: BaseViewInput {
     var presenter: FlickrSearchViewOutput! { get set }
+    func changeViewState(_ state: ViewState)
     func displayFlickrSearchImages()
 }
 

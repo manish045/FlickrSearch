@@ -7,11 +7,20 @@
 
 import UIKit
 
+//MARK: ViewState
+public enum ViewState: Equatable {
+    case none
+    case loading
+    case error(String)
+    case content
+}
+
 class FlickrSearchViewController: UIViewController, FlickrSearchViewInput {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
     var presenter: FlickrSearchViewOutput!
+    var viewState: ViewState = .none
 
     lazy var searchController: UISearchController = {
         let searchVC = SearchViewController()
@@ -78,6 +87,21 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput {
     
     func displayFlickrSearchImages() {
         self.collectionView.reloadData()
+    }
+    
+    func changeViewState(_ state: ViewState) {
+        viewState = state
+        switch state {
+        case .loading:
+            showSpinner()
+
+        case .content:
+            hideSpinner()
+        case .error(let message):
+            hideSpinner()
+        default:
+            break
+        }
     }
 }
 
