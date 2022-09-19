@@ -15,13 +15,15 @@ public enum ViewState: Equatable {
     case content
 }
 
-class FlickrSearchViewController: UIViewController, FlickrSearchViewInput {
+class FlickrSearchViewController: UIViewController, FlickrSearchViewInput, AlertsPresenting {
     
     @IBOutlet weak var collectionView: UICollectionView!
     
     var presenter: FlickrSearchViewOutput!
     var viewState: ViewState = .none
-
+    
+    private var searchText = ""
+    
     lazy var searchController: UISearchController = {
         let searchVC = SearchViewController()
         searchVC.searchDelegate = self
@@ -94,11 +96,13 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput {
         switch state {
         case .loading:
             showSpinner()
-
         case .content:
             hideSpinner()
         case .error(let message):
             hideSpinner()
+            showAlert(title: AppConstant.Strings.error, message: message, retryAction: { [unowned self] in
+                self.presenter.searchFlickrPhotos(matching: self.searchText)
+            })
         default:
             break
         }
@@ -135,8 +139,10 @@ extension FlickrSearchViewController: FlickrSearchEventDelegate {
     func didTapSearchBar(withText searchText: String) {
         // hides active search on controller
         searchController.isActive = false
+        guard !searchText.isEmpty || searchText != self.searchText else { return }
         presenter.clearData()
 
+        self.searchText = searchText
         searchController.searchBar.text = searchText
         presenter.searchFlickrPhotos(matching: searchText)
     }
