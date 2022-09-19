@@ -56,17 +56,22 @@ extension FlickrSearchPresenter: FlickrSearchInteractorOutput {
     ///  Success response from API Search
     func flickrSearchSuccess(_ flickrPhotos: FlickrPhotos?) {
         guard let flickrPhotos = flickrPhotos else {return}
+        let flickrPhotoUrlList = buildFlickrPhotoUrlList(from: flickrPhotos.photo ?? [])
+        guard !flickrPhotoUrlList.isEmpty else {
+            return
+        }
 
+        /// Check if data is adding for the first time then reload whole collection view else reload specific index path
         if totalCount == AppConstant.Constants.defaultTotalCount {
             totalCount = flickrPhotos.photo?.count ?? 0
             totalPages = flickrPhotos.pages ?? 0
-            self.photoArray = flickrPhotos.photo ?? []
+            self.photoArray = flickrPhotoUrlList
 
             DispatchQueue.main.async { [unowned self] in
                 self.view?.displayFlickrSearchImages()
             }
         } else {
-            insertMoreFlickrPhotos(with: flickrPhotos.photo ?? [])
+            insertMoreFlickrPhotos(with: flickrPhotoUrlList)
         }
     }
     
@@ -79,5 +84,12 @@ extension FlickrSearchPresenter: FlickrSearchInteractorOutput {
     fileprivate func insertMoreFlickrPhotos(with flickrPhotosList: FlickrPhotoList) {
         totalCount += flickrPhotosList.count
         self.photoArray = flickrPhotosList
+    }
+    
+    //MARK: Private Methods
+    /// Remove object that has no image
+    func buildFlickrPhotoUrlList(from photos: FlickrPhotoList) -> FlickrPhotoList {
+        let flickrPhotoUrlList = photos.filter({$0.url?.isEmpty == false})
+        return flickrPhotoUrlList
     }
 }

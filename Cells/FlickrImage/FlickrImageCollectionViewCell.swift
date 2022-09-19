@@ -16,4 +16,9 @@ class FlickrImageCollectionViewCell: UICollectionViewCell {
         // Initialization code
     }
 
+    var model: FlickrPhoto! {
+        didSet {
+            self.photoImageView.downloadImage(from: model.url)
+        }
+    }
 }
