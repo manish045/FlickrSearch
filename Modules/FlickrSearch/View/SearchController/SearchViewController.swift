@@ -8,7 +8,7 @@
 import UIKit
 
 protocol FlickrSearchEventDelegate: AnyObject {
-
+    func didTapSearchBar(withText searchText: String)
 }
 
 final class SearchViewController: UIViewController, UISearchBarDelegate {
@@ -23,8 +23,13 @@ final class SearchViewController: UIViewController, UISearchBarDelegate {
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
        searchBar.resignFirstResponder()
     }
-}
-
-extension SearchViewController: FlickrSearchEventDelegate {
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let text = searchBar.text else {
+            return
+        }
+        searchBar.text = text
+        searchBar.resignFirstResponder()
+        searchDelegate?.didTapSearchBar(withText: text)
+    }
 }
