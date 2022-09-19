@@ -31,6 +31,7 @@ protocol FlickrSearchViewInput: BaseViewInput {
     var presenter: FlickrSearchViewOutput! { get set }
     func changeViewState(_ state: ViewState)
     func displayFlickrSearchImages()
+    func insertFlickrSearchImages(at indexPaths: [IndexPath])
 }
 
 //MARK: Presenter
@@ -44,6 +45,8 @@ protocol FlickrSearchViewOutput: AnyObject {
     
     var photoArray: FlickrPhotoList {get}
     var numberOfRowsInPhotoSection: Int {get}
+    var paginationIndex: Int { get }
+    var isEmpty: Bool {get}
     func searchFlickrPhotos(matching imageName: String)
     func clearData()
     var isMoreDataAvailable: Bool { get }
