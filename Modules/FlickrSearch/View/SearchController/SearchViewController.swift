@@ -14,7 +14,17 @@ protocol FlickrSearchEventDelegate: AnyObject {
 final class SearchViewController: UIViewController, UISearchBarDelegate {
     
     weak var searchDelegate: FlickrSearchEventDelegate?
-
+    private var databaseManager: DBManagerView
+    
+    init(databaseManager: DBManagerView = DatabaseManager(type: .searchKeyword)) {
+        self.databaseManager = databaseManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .backgroundColor
@@ -31,5 +41,11 @@ final class SearchViewController: UIViewController, UISearchBarDelegate {
         searchBar.text = text
         searchBar.resignFirstResponder()
         searchDelegate?.didTapSearchBar(withText: text)
+        saveKeyword(text: text)
+    }
+    
+    private func saveKeyword(text: String) {
+        let model = SearchKeywordModel(keyword: text)
+        databaseManager.saveSearchText(list: [model])
     }
 }
