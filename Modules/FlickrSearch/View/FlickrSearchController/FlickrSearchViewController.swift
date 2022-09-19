@@ -31,7 +31,6 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput {
         setUpNavigation()
         configureSearchController()
         configureCollectionView()
-        presenter.searchFlickrPhotos(matching: "Car")
     }
     
     private func setUpNavigation() {
@@ -101,6 +100,7 @@ extension FlickrSearchViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueCell(FlickrImageCollectionViewCell.self, indexPath: indexPath)
+        cell.model = presenter.photoArray[indexPath.row]
         return cell
     }
 }

@@ -31,9 +31,9 @@ struct FlickrPhoto: BaseModel {
     let server: String?
     let title: String?
     
-    var url: String {
+    var url: String? {
         guard let farm = farm, let server = server, let secret = secret else {
-            return ""
+            return nil
         }
 
         let urlString = "https://farm\(farm).staticflickr.com/\(server)/\(id)_\(secret)_z.jpg"

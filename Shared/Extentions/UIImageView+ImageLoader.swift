@@ -11,7 +11,7 @@ import SDWebImage
 extension UIImageView {
     
     func downloadImage(from url: String?,
-                       placeholderImage: UIImage?) {
+                       placeholderImage: UIImage? = UIImage(named: "placeholderImage")) {
 
         self.image = nil
         sd_cancelCurrentImageLoad()
