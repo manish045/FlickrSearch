@@ -15,6 +15,11 @@ struct AppConstant {
     enum Strings {
         static let flickrSearchTitle = "Flickr Search"
         static let placeholder = "Search Flickr images..."
+        
+        static let cancel = "Cancel"
+        static let ok = "Ok"
+        static let retry = "Retry"
+        static let error = "Error"
     }
     
     //MARK: NetworkAPI Constants
