@@ -21,5 +21,13 @@ struct AppConstant {
     enum APIConstants {
         static let flickrAPIBaseURL = "https://api.flickr.com"
     }
+    
+    //MARK: Numeric Constants
+    enum Constants {
+        static let defaultPageNum: Int = 0
+        static let defaultTotalCount: Int = 0
+        static let defaultPageSize: Int = 20
+    }
 }
+
 

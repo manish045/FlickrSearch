@@ -21,7 +21,7 @@ struct MSUtils {
             
             //addd auth params
             var requestParams = [String : String]()
-            requestParams["apikey"] = publicKey
+            requestParams["api_key"] = publicKey
             
             //build query string
             var queryItems = [URLQueryItem]()

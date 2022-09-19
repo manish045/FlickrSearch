@@ -18,15 +18,12 @@ final class FlickrSearchModuleBuilder: FlickrModuleBuilder {
     // Create an instance for view controller and all related dependencies
     func buildModule() -> FlickrSearchViewController {
         let flickrViewController = FlickrSearchViewController()
+        
         let interactor = FlickrSearchIneractor()
         let router = FlickrSearchRouter()
-        
-        let presenter = FlickrSearchPresenter(interactor: interactor,
-                                              router: router)
-
+        let presenter = FlickrSearchPresenter(interactor: interactor,router: router)
         presenter.view = flickrViewController
-        presenter.interactor = interactor
-        presenter.router = router
+
         interactor.presenter = presenter
         flickrViewController.presenter = presenter
         router.viewController = flickrViewController
