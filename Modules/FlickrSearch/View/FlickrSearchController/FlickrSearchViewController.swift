@@ -107,4 +107,13 @@ extension FlickrSearchViewController: UICollectionViewDataSource {
 
 extension FlickrSearchViewController: FlickrSearchEventDelegate {
     
+    /// Search for text from searchBar in API
+    func didTapSearchBar(withText searchText: String) {
+        // hides active search on controller
+        searchController.isActive = false
+        presenter.clearData()
+
+        searchController.searchBar.text = searchText
+        presenter.searchFlickrPhotos(matching: searchText)
+    }
 }
