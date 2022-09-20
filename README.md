@@ -32,4 +32,4 @@ This module consists XCTTest classes for testing.
 
 Swift Package Manager
 
-Alamofire(v 4.9.1), SDWebImage, RealmSwift has been installed using swift package manager. In case of missing package dependency to your Xcode project, select File > Swift Packages > Add Package Dependency and enter its repository URL.
+Alamofire(v 4.9.1), SDWebImage, RealmSwift has been installed using swift package manager. In case of missing package dependency in Xcode project, go to File > Packages > Reset Package Caches wait for it to be finished. Once done clean the build and run the app.
