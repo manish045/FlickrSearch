@@ -14,13 +14,13 @@ enum APIResult<T, APIError> {
     case error(APIError)
 }
 
-protocol PerformRequest {
+protocol NetworkRequest {
     func performRequest<T: BaseModel>(endPoint: EndPoints,
                                       parameters: [String : Any],
                                       completion: @escaping (APIResult<T, APIError>) -> Void)
 }
 
-class APIFlickrService: SessionManager, PerformRequest {
+class APIFlickrService: SessionManager, NetworkRequest {
     
     var network: Network
 
