@@ -107,10 +107,12 @@ class FlickrSearchViewController: UIViewController, FlickrSearchViewInput, Alert
         }
     }
     
+    // Load all initial images
     func displayFlickrSearchImages() {
         self.collectionView.reloadData()
     }
     
+    /// Called in case of pagination
     func insertFlickrSearchImages(at indexPaths: [IndexPath]) {
         collectionView.performBatchUpdates({
             self.collectionView.insertItems(at: indexPaths)
