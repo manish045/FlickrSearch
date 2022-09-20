@@ -10,9 +10,9 @@ import Foundation
 class FlickrSearchIneractor: FlickrSearchInteractorInput {
     
     weak var presenter: FlickrSearchInteractorOutput?
-    var network: PerformRequest
+    var network: NetworkRequest
     
-    init(network: PerformRequest = APIFlickrService()) {
+    init(network: NetworkRequest = APIFlickrService()) {
         self.network = network
     }
     
