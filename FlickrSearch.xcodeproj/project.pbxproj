@@ -380,6 +380,7 @@
 				B9020FFE28DA2D8300BB60C5 /* Cells */,
 				B902100528DA2D8300BB60C5 /* Modules */,
 				B9020FE028DA2D8300BB60C5 /* Shared */,
+				B902107828DA3F1900BB60C5 /* Info.plist */,
 			);
 			path = FlickrSearch;
 			sourceTree = "<group>";
@@ -409,7 +410,6 @@
 			isa = PBXGroup;
 			children = (
 				B902103E28DA2DB400BB60C5 /* FlickrSearch */,
-				B902107828DA3F1900BB60C5 /* Info.plist */,
 				B95789C628D6CB4E00B558F8 /* FlickrSearchTests */,
 				B95789D028D6CB4E00B558F8 /* FlickrSearchUITests */,
 				B95789AE28D6CB4C00B558F8 /* Products */,
