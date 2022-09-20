@@ -38,9 +38,6 @@
 		B902105E28DA2EF000BB60C5 /* FlickrSearchModuleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902101428DA2D8300BB60C5 /* FlickrSearchModuleBuilder.swift */; };
 		B902105F28DA2EF000BB60C5 /* FlickrSearchRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902101A28DA2D8300BB60C5 /* FlickrSearchRouter.swift */; };
 		B902106028DA2EF000BB60C5 /* FlickrSearchIneractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B902101828DA2D8300BB60C5 /* FlickrSearchIneractor.swift */; };
-		B902106328DA2FB100BB60C5 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B902106228DA2FB100BB60C5 /* Alamofire */; };
-		B902106628DA2FCB00BB60C5 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = B902106528DA2FCB00BB60C5 /* SDWebImage */; };
-		B902106928DA2FF300BB60C5 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B902106828DA2FF300BB60C5 /* RealmSwift */; };
 		B902106A28DA308200BB60C5 /* FlickrSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B902100F28DA2D8300BB60C5 /* FlickrSearchViewController.xib */; };
 		B902106B28DA308900BB60C5 /* SearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B902101228DA2D8300BB60C5 /* SearchViewController.xib */; };
 		B902106E28DA31E400BB60C5 /* FlickrPlist.plist in Resources */ = {isa = PBXBuildFile; fileRef = B9020FE928DA2D8300BB60C5 /* FlickrPlist.plist */; };
@@ -131,9 +128,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B902106928DA2FF300BB60C5 /* RealmSwift in Frameworks */,
-				B902106628DA2FCB00BB60C5 /* SDWebImage in Frameworks */,
-				B902106328DA2FB100BB60C5 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,9 +457,6 @@
 			);
 			name = FlickrSearch;
 			packageProductDependencies = (
-				B902106228DA2FB100BB60C5 /* Alamofire */,
-				B902106528DA2FCB00BB60C5 /* SDWebImage */,
-				B902106828DA2FF300BB60C5 /* RealmSwift */,
 			);
 			productName = FlickrSearch;
 			productReference = B95789AD28D6CB4C00B558F8 /* FlickrSearch.app */;
@@ -541,9 +532,6 @@
 			);
 			mainGroup = B95789A428D6CB4C00B558F8;
 			packageReferences = (
-				B902106128DA2FB100BB60C5 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				B902106428DA2FCB00BB60C5 /* XCRemoteSwiftPackageReference "SDWebImage" */,
-				B902106728DA2FF300BB60C5 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = B95789AE28D6CB4C00B558F8 /* Products */;
 			projectDirPath = "";
@@ -971,51 +959,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		B902106128DA2FB100BB60C5 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
-			requirement = {
-				kind = exactVersion;
-				version = 4.9.1;
-			};
-		};
-		B902106428DA2FCB00BB60C5 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
-		B902106728DA2FF300BB60C5 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		B902106228DA2FB100BB60C5 /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B902106128DA2FB100BB60C5 /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = Alamofire;
-		};
-		B902106528DA2FCB00BB60C5 /* SDWebImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B902106428DA2FCB00BB60C5 /* XCRemoteSwiftPackageReference "SDWebImage" */;
-			productName = SDWebImage;
-		};
-		B902106828DA2FF300BB60C5 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B902106728DA2FF300BB60C5 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B95789A528D6CB4C00B558F8 /* Project object */;
 }
